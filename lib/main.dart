@@ -35,10 +35,10 @@ class Task {
 List allTasks = [
   Task(title: "HTML", status: false),
   Task(title: "CSS", status: true),
+  Task(title: "JAVASCRIPT", status: true),
+  Task(title: "FLUTTER", status: true),
   Task(title: "DART", status: true),
 ];
-
-
 
 cont() {
   int contDone = 0;
@@ -60,11 +60,25 @@ class _TodoState extends State<Todo> {
         ttext = mycontroller.text;
       });
     }
- changeStatus(int i) {
- setState(() {
- allTasks[i].status = !allTasks[i].status;
- });
-}
+
+    changeStatus(int i) {
+      setState(() {
+        allTasks[i].status = !allTasks[i].status;
+      });
+    }
+    
+
+    deleteTask(int i) {
+      setState(() {
+        allTasks.removeAt(i);
+      });
+    }
+    deleteTaskAll() {
+      setState(() {
+        allTasks.removeRange(0, allTasks.length);
+      });
+    }
+
     addnewtast() {
       allTasks.add(Task(title: ttext, status: false));
     }
@@ -134,6 +148,18 @@ class _TodoState extends State<Todo> {
       ),
       backgroundColor: Color.fromRGBO(58, 66, 86, 0.7),
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              deleteTaskAll();
+            },
+            icon: Icon(
+              size: 29,
+              Icons.delete_forever,
+              color: const Color.fromARGB(255, 248, 96, 85),
+            ),
+          ),
+        ],
         backgroundColor: Color.fromRGBO(58, 66, 86, 1),
         elevation: 0,
         title: Text(
@@ -160,6 +186,7 @@ class _TodoState extends State<Todo> {
                     varStatus: allTasks[index].status,
                     changeStatus: changeStatus,
                     i: index,
+                    deleteTask: deleteTask,
                   );
                 },
                 itemCount: allTasks.length,

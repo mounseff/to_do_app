@@ -5,12 +5,14 @@ class card extends StatelessWidget {
   String varTiltle;
   bool varStatus;
   Function changeStatus;
+  Function deleteTask;
   int i;
   card({
     super.key,
     required this.varTiltle,
     required this.changeStatus,
     required this.varStatus,
+    required this.deleteTask,
     required this.i,
   });
   @override
@@ -23,7 +25,7 @@ class card extends StatelessWidget {
         widthFactor: 0.9,
         child: Container(
           margin: EdgeInsets.only(top: 20),
-          padding: EdgeInsets.all(22),
+          padding: EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: Color.fromRGBO(209, 224, 224, 0.2),
             borderRadius: BorderRadius.circular(12),
@@ -33,12 +35,33 @@ class card extends StatelessWidget {
             children: [
               Text(
                 varTiltle,
-                style: TextStyle(color: Colors.white, fontSize: 22),
+                style: TextStyle(
+                  color: varStatus ? Colors.black : Colors.white,
+                  fontSize: 22,
+                  decoration: varStatus
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+                ),
               ),
-              Icon(
-                varStatus ? Icons.check : Icons.close,
-                size: 27,
-                color: varStatus ? Colors.green : Colors.red,
+              Row(
+                children: [
+                  Icon(
+                    varStatus ? Icons.check : Icons.close,
+                    size: 27,
+                    color: varStatus ? Colors.green : Colors.red,
+                  ),
+                  SizedBox(width: 10),
+                  IconButton(
+                    onPressed: () {
+                      deleteTask(i);
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      color: const Color.fromARGB(255, 248, 96, 85),
+                      size: 25,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
